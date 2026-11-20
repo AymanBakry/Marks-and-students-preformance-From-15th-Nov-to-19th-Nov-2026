@@ -5,24 +5,25 @@ const URL_CSV = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=
 
 // أعمدة الدرجات (العد يبدأ من 0: A=0, B=1, C=2 ...)
 const FIELDS = [
-  { col: 8, label: "اختبار 1", max: 20, icon: "📝" },       // I
-  { col: 2, label: "المشاركة", max: 10, icon: "🙋" },        // C
-  { col: 3, label: "السلوك", max: 10, icon: "🤝" },          // D
-  { col: 4, label: "المذكرة", max: 10, icon: "📓" },         // E
-  { col: 5, label: "المهمة 1", max: 5, icon: "✏️" },        // F
-  { col: 6, label: "المهمة 2", max: 5, icon: "📌" },         // G
-  { col: 7, label: "كتابة الفقرة 2", max: 10, icon: "🖋️" }, // H
+  { col: 8, label: "اختبار 1", max: 20, icon: "📝" },                  // I
+  { col: 9, label: "اختبار 2", max: 25, icon: "🧪" },                  // J
+  { col: 3, label: "المشاركة", max: 10, icon: "🙋" },                   // D
+  { col: 4, label: "السلوك", max: 10, icon: "🤝" },                     // E
+  { col: 5, label: "المذكرة", max: 10, icon: "📓" },                    // F
+  { col: 6, label: "المهمة 1", max: 5, icon: "✏️" },                   // G
+  { col: 7, label: "المهمة 2", max: 5, icon: "📌" },                    // H
+  { col: 2, label: "المشاركة في زيارة الجودة", max: 15, icon: "⭐", special: true }, // C (تظهر في بطاقة خاصة)
 ];
-const ACAD_COL = 12; // المستوى الأكاديمي (M)
-const BEH_COL = 13;  // السلوك الصفي (N)
-const TOTAL_MAX = FIELDS.reduce((s, f) => s + f.max, 0); // 70
+const ACAD_COL = 13; // الأداء الأكاديمي (N)
+const BEH_COL = 14;  // السلوك (O)
+const TOTAL_MAX = FIELDS.reduce((s, f) => s + f.max, 0); // 100
 
 // أنشطة اللغة الإنجليزية (بدون درجات): أي رقم أكبر من صفر = أنجز النشاط
 const ACTIVITIES = [
-  { col: 10, name: "Reading progress", icon: "📖",
+  { col: 11, name: "Reading progress", icon: "📖",
     ok: "ما شاء الله! أنجز ابنكم نشاط Reading progress، ونشجعه على مواصلة القراءة اليومية.",
     no: "لم يُسجَّل له نشاط Reading progress بعد. نحفّزه على البدء اليوم، فخطوة صغيرة كل يوم تصنع فرقًا كبيرًا. 💪" },
-  { col: 11, name: "Speaking progress", icon: "🎤",
+  { col: 12, name: "Speaking progress", icon: "🎤",
     ok: "أحسن! شارك ابنكم في نشاط Speaking progress، ونشجعه على الاستمرار في التحدث بثقة.",
     no: "لم يُسجَّل له نشاط Speaking progress بعد. نحفّزه على المشاركة والتحدث، فكل محاولة تقرّبه من الإتقان. 🎤" },
 ];
@@ -92,14 +93,18 @@ const TOPICS_ACAD = [
   { re: /المذكر|الورك بوك|الواجبات|لا يكتب/, icon: "✏️", anim: "write", color: "#d97706", title: "المذكرة والواجبات", text: "يُرجى متابعة التدوين وحل تمارين المذكرة وإنجاز الواجبات." },
   { re: /المزاح|قواعد الحصة/, icon: "🤝", anim: "shake", color: "#CE1126", title: "قواعد الحصة", text: "يُرجى الالتزام بقواعد الحصة والابتعاد عن المزاح." },
   { re: /مستديراً|مستديرا|لا يستجيب|لا يتجاوب|مكان جلوسه|مكانه/, icon: "👂", anim: "pulse", color: "#7c3aed", title: "الاستجابة للمعلم", text: "نأمل أن يستجيب لتوجيهات المعلم أثناء الدرس." },
+  { re: /التيمز|Teams/i, icon: "🎧", anim: "pulse", color: "#2563eb", title: "أنشطة Teams", text: "نوصي بمتابعة إنجاز الأنشطة على منصة Teams." },
   { re: /لم يقدم\s+اختبار/, icon: "📝", anim: "bob", color: "#2563eb", title: "اختبار الفقرة", text: "لم يُسجَّل له اختبار الفقرة، يُرجى التواصل مع المعلم." },
 ];
 const TOPICS_BEH = [
   { re: /سلوكه (ممتاز|راق|منضبط)|ملتزم بقواعد|يتسم بالالتزام|ملتزم ومنضبط|يحرص على احترام/, icon: "🌟", anim: "twinkle", color: "#16a34a", title: "سلوك مشرّف", text: "ملتزم ومنضبط ومتعاون داخل الصف." },
   { re: /تطور|تحسن/, icon: "📈", anim: "rise", color: "#0d9488", title: "تحسّن ملحوظ", text: "سجّل تقدمًا واضحًا في الالتزام بتعليمات الصف." },
   { re: /التركيز|المشتتات|يشتت/, icon: "🎯", anim: "pulse", color: "#7c3aed", title: "تعزيز التركيز", text: "يحتاج إلى تقليل المشتتات وزيادة التركيز أثناء الدرس." },
-  { re: /الفوضي|الفوضى|اصوات عالية|أصوات عالية|رفع الصوت/, icon: "🤫", anim: "shake", color: "#be185d", title: "الهدوء في الحصة", text: "يُرجى تجنب رفع الصوت وإثارة الفوضى أثناء الدرس." },
-  { re: /دورة المياه|الحمام/, icon: "🚪", anim: "swing", color: "#64748b", title: "البقاء في الصف", text: "يُرجى تقليل الخروج المتكرر أثناء الحصة." },
+  { re: /الفوضي|الفوضى|اصوات عالية|أصوات عالية|رفع الصوت|الهدوء/, icon: "🤫", anim: "shake", color: "#be185d", title: "الهدوء في الحصة", text: "يُرجى تجنب رفع الصوت وإثارة الفوضى أثناء الدرس." },
+  { re: /السوالف|الجدال|المزاح/, icon: "💬", anim: "bob", color: "#0284c7", title: "الأحاديث الجانبية", text: "نأمل تقليل الأحاديث الجانبية والتركيز في الدرس." },
+  { re: /التراشق|التهاوش|المشكلات/, icon: "🕊️", anim: "pulse", color: "#db2777", title: "حسن التعامل مع الزملاء", text: "نأمل أن يتعامل بهدوء ولطف مع زملائه." },
+  { re: /الصف له قواعد|الاتزام بأن/, icon: "📏", anim: "shake", color: "#CE1126", title: "قواعد الصف", text: "يُرجى الالتزام بقواعد الصف التي تلتزم بها الإدارة والجميع." },
+  { re: /دورة المياه|الحمام|القيام من مكان|طلب الخروج/, icon: "🚪", anim: "swing", color: "#64748b", title: "البقاء في المقعد", text: "يُرجى تقليل الخروج والقيام من المقعد أثناء الحصة." },
   { re: /طاقته|نشاطه/, icon: "⚡", anim: "star", color: "#d97706", title: "توجيه الطاقة", text: "نشجعه على توجيه طاقته نحو التحصيل الدراسي." },
 ];
 
@@ -248,7 +253,7 @@ function animateNumber(el, ring, target, pct) {
 
 function show(r) {
   const box = document.getElementById("student");
-  const name = clean(r[1]);
+  const name = clean(r[1]) || ("طالب رقم " + clean(r[0]));
 
   // الدرجات والمجموع (يُحسب من الدرجات نفسها). النص مثل "غائب" أو "محاولة غش" يظهر كحالة ولا يُحسب
   const items = FIELDS.map(f => {
@@ -261,7 +266,7 @@ function show(r) {
   const tier = TIERS.find(t => pct >= t.min);
 
   // نقطة القوة وفرصة التطوير (من الدرجات المسجلة فقط)
-  const valid = items.filter(x => x.n !== null);
+  const valid = items.filter(x => x.n !== null && !x.special);
   let chips = "";
   if (valid.length) {
     const best = valid.reduce((a, b) => (b.ratio > a.ratio ? b : a));
@@ -270,7 +275,7 @@ function show(r) {
     if (worst.ratio < 1 && worst !== best) chips += `<span class="chip ci2">🎯 فرصة للتطوير: ${esc(worst.label)}</span>`;
   }
 
-  const tiles = items.map((x, i) => {
+  const tiles = items.filter(x => !x.special).map((x, i) => {
     const d = `style="animation-delay:${i * 0.08}s"`;
     if (x.status) {
       const cheat = /غش/.test(x.status);
