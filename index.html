@@ -147,6 +147,32 @@ button:disabled{opacity:.6}
 .m1{background:linear-gradient(135deg,#0d9488,#2dd4bf)}.m2{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}.m3{background:linear-gradient(135deg,#d97706,#F5B700)}
 footer{background:linear-gradient(135deg,var(--dred),var(--red));color:#fff;text-align:center;padding:16px;font-weight:800}
 footer small{display:block;opacity:.85;font-weight:600}
+
+/* ===== شريط الإعلان وبطاقة زيارة الجودة ===== */
+.ticker{direction:ltr;overflow:hidden;white-space:nowrap;background:linear-gradient(90deg,#fff7ed,#fef3c7,#fff7ed);border-bottom:3px solid var(--gold);font-weight:900;color:var(--dred)}
+.ticker span{display:inline-block;direction:rtl;padding:6px 0 6px 100%;animation:tick 26s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.qv{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;border-radius:26px;padding:18px;color:#fff;background:linear-gradient(120deg,#7c1d6f,#CE1126,#f59e0b,#CE1126);background-size:300% 100%;animation:shine 9s ease infinite;box-shadow:0 14px 34px rgba(206,17,38,.4);margin-bottom:18px}
+@keyframes shine{50%{background-position:100% 0}}
+.qv::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.12);top:-90px;left:-60px}
+.qv .qi{flex:none;width:clamp(86px,22vw,120px);position:relative}
+.qv .qi svg{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+.qv .qt{position:relative}
+.qv .tag{display:inline-block;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.55);border-radius:99px;padding:1px 14px;font-weight:900;font-size:.85rem}
+.qv h2{margin:4px 0;font-weight:900;font-size:clamp(1.25rem,4.6vw,1.9rem);line-height:1.35;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.qv p{margin:0;font-weight:700}
+.big15{display:inline-block;background:#fff;color:var(--red);font-weight:900;border-radius:14px;padding:0 12px;margin:0 4px;animation:mb 1.6s ease-in-out infinite;text-shadow:none}
+.chk{stroke-dasharray:40;animation:chk 2.4s ease-in-out infinite}
+@keyframes chk{0%{stroke-dashoffset:40}40%,100%{stroke-dashoffset:0}}
+.qs{display:flex;align-items:center;gap:12px;border-radius:20px;padding:12px 14px;margin:0 0 14px;font-weight:700;animation:pop .6s ease both}
+.qs b{display:block;font-size:1.1rem;font-weight:900}
+.qs p{margin:2px 0 0;font-size:.92rem}
+.qsi{flex:none;font-size:2.4rem;line-height:1}
+.qs.ok{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border:2px solid #4ade80;color:#14532d}
+.qs.no{background:linear-gradient(135deg,#fff7ed,#fde68a);border:2px solid #f59e0b;color:#7c2d12;animation:pop .6s ease both,qpulse 2.2s ease-in-out infinite .6s}
+@keyframes qpulse{50%{box-shadow:0 0 0 7px rgba(245,158,11,.25)}}
+.qbadge{display:inline-block;margin-top:4px;background:#CE1126;color:#fff;border-radius:99px;padding:1px 14px;font-weight:900;font-size:.85rem}
+@media(max-width:480px){.qv{flex-direction:column;text-align:center}}
 @media(max-width:480px){.row{flex-direction:column}.totalbox{flex-direction:column;text-align:center}.banner{padding:16px 14px 28px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -169,6 +195,8 @@ footer small{display:block;opacity:.85;font-weight:600}
 </svg>
 
 <div class="top"><svg><use href="#flag"/></svg> مملكة البحرين</div>
+
+<div class="ticker"><span>📢 زيارة الجودة: شارك وتفاعل واحصل على 15 درجة إضافية 🌟 &nbsp;&nbsp;•&nbsp;&nbsp; المشاركة والتفاعل = +15 درجة تُضاف إلى مجموعك ⭐ &nbsp;&nbsp;•&nbsp;&nbsp; كن من المميزين في زيارة الجودة 🏅</span></div>
 
 <header class="hero">
   <div class="htxt">
@@ -198,6 +226,23 @@ footer small{display:block;opacity:.85;font-weight:600}
 </header>
 
 <main>
+  <section class="qv">
+    <div class="qi"><svg viewBox="0 0 110 120" aria-hidden="true">
+      <rect x="16" y="14" width="70" height="94" rx="10" fill="#fff"/><rect x="36" y="6" width="30" height="14" rx="5" fill="#8f0c1d"/>
+      <path class="chk" d="M28 44l8 8 14-16" stroke="#16a34a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="chk" style="animation-delay:.5s" d="M28 72l8 8 14-16" stroke="#16a34a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="56" y="44" width="22" height="5" rx="2" fill="#e5e7eb"/><rect x="56" y="54" width="16" height="5" rx="2" fill="#e5e7eb"/>
+      <rect x="56" y="72" width="22" height="5" rx="2" fill="#e5e7eb"/><rect x="56" y="82" width="16" height="5" rx="2" fill="#e5e7eb"/>
+      <g class="mb" style="transform-origin:84px 88px"><circle cx="84" cy="88" r="23" fill="#F5B700"/><circle cx="84" cy="88" r="18" fill="none" stroke="#fff" stroke-width="2.5"/><text x="84" y="96" text-anchor="middle" font-size="21" font-weight="900" fill="#8f0c1d">+15</text></g>
+      <text class="tw" x="6" y="30" font-size="16" fill="#FFD43B">✦</text><text class="tw" x="92" y="22" font-size="13" fill="#fff" style="animation-delay:.7s">✦</text>
+    </svg></div>
+    <div class="qt">
+      <span class="tag">🌟 فرصة مميزة لكل طالب</span>
+      <h2>زيارة الجودة: شارك وتفاعل<br>واحصل على <span class="big15">15</span> درجة إضافية</h2>
+      <p>كل طالب يشارك ويتفاعل في زيارة الجودة تُضاف إلى مجموعه 15 درجة، فلا تفوّت الفرصة!</p>
+    </div>
+  </section>
+
   <section class="card">
     <h3 class="stitle">🏫 إدارة المدرسة</h3>
     <div class="staff">
